@@ -1,0 +1,249 @@
+/* cores globais do projeto */
+
+:root {
+    --ink: #0f0f10;
+    --ink-soft: #3d3d42;
+    --ink-muted: #8c8c96;
+    --surface: #fafaf9;
+    --surface-raised: #ffffff;
+    --surface-sunken: #f3f3f0;
+    --border: #e4e4e0;
+    --accent: #2563eb;
+    --accent-soft: #eff4ff;
+    --accent-glow: rgba(37, 99, 235, 0.12);
+    --green: #16a34a;
+    --green-soft: #f0fdf4;
+    --gray-badge: #6b7280;
+    --gray-badge-soft: #f3f4f6;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "DM Sans", sans-serif;
+    background: var(--surface);
+    color: var(--ink);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* textura de grid, no fundo */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.45;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.serif {
+    font-family: "Raleway", serif;
+}
+
+header {
+    position: relative;
+    z-index: 10;
+    border-bottom: 1px solid var(--border);
+    background: rgba(250, 250, 249, 0.85);
+    backdrop-filter: blur(12px);
+}
+
+.tab-btn {
+    position: relative;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+.tab-btn:hover {
+    color: var(--ink);
+    background: var(--surface-sunken);
+}
+
+.tab-btn.active {
+    color: var(--accent);
+    background: var(--accent-soft);
+}
+
+.tab-btn.active::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 2px 2px 0 0;
+}
+
+textarea {
+    font-family: "DM Sans", sans-serif;
+    resize: none;
+    outline: none;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+textarea:focus {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+#drop-zone {
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+#drop-zone.drag-over {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+#classify-btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+#classify-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(-100%) skewX(-12deg);
+    transition: transform 0.4s ease;
+}
+
+#classify-btn:not(:disabled):hover::before {
+    transform: translateX(100%) skewX(-12deg);
+}
+
+#classify-btn:not(:disabled):hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+}
+
+#classify-btn:not(:disabled):active {
+    transform: translateY(0);
+}
+
+#classify-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+/* animação do card */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result-animate {
+    animation: slideUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* animação da badge */
+@keyframes badgePulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 0 6px rgba(22, 163, 74, 0);
+    }
+}
+
+.badge-productive {
+    animation: badgePulse 2s ease-in-out 3;
+}
+
+/* ── animação do spinner ── */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner {
+    animation: spin 0.75s linear infinite;
+}
+
+/* ── animação do skeleton ── */
+@keyframes shimmer {
+    0% {
+        background-position: -400px 0;
+    }
+
+    100% {
+        background-position: 400px 0;
+    }
+}
+
+.skeleton {
+    background: linear-gradient(90deg,
+            #ececea 25%,
+            #f5f5f3 50%,
+            #ececea 75%);
+    background-size: 800px 100%;
+    animation: shimmer 1.4s infinite;
+    border-radius: 6px;
+}
+
+
+.copy-btn {
+    transition: all 0.2s ease;
+}
+
+.copy-btn:hover {
+    background: var(--surface-sunken);
+}
+
+.copy-btn.copied {
+    color: var(--green);
+}
+
+
+/* ── scrollbar ── */
+textarea::-webkit-scrollbar {
+    width: 4px;
+}
+
+textarea::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+textarea::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+}
+
+
+#file-info {
+    transition: all 0.25s ease;
+}
