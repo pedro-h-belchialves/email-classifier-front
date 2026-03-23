@@ -2,6 +2,11 @@ let currentTab = "text";
 let selectedFile = null;
 let isLoading = false;
 
+const API_BASE_URL =
+  window.location.hostname === "localhost"
+    ? "/api"
+    : "https://email-classifier-api-wvjm.onrender.com";
+
 function switchTab(tab) {
   currentTab = tab;
   document
@@ -193,8 +198,10 @@ function copyResponse() {
 }
 
 // interação com a api
+
+//obs: usei /api/... pois isso será tratado no nginx quando rodando local ou pela vercel em produção
 async function classifyText(text) {
-  const response = await fetch("http://localhost:8000/classify", {
+  const response = await fetch(`${API_BASE_URL}/classify`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ content: text }),
@@ -206,7 +213,7 @@ async function classifyText(text) {
 async function classifyFile(file) {
   const formData = new FormData();
   formData.append("file", file);
-  const response = await fetch("http://localhost:8000/classify-file", {
+  const response = await fetch(`${API_BASE_URL}/classify-file`, {
     method: "POST",
     body: formData,
   });
